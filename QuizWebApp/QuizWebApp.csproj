@@ -217,6 +217,7 @@
     <Compile Include="Models\SignInViewModel.cs" />
     <Compile Include="Models\ContextStateType.cs" />
     <Compile Include="Models\AnswerStateType.cs" />
+    <Compile Include="Models\PlayerViewModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

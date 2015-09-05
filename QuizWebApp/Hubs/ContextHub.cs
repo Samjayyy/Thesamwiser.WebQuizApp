@@ -50,6 +50,7 @@ namespace QuizWebApp.Hubs
                 var questionId = context.CurrentQuestionID;
                 var answer = db.Answers.First(a => a.PlayerID == playerId && a.QuestionID == questionId);
                 answer.ChoosedOptionIndex = answerIndex;
+                answer.AssignedValue = 1;
                 answer.Status = AnswerStateType.Pending;/*entried*/
 
                 db.SaveChanges();

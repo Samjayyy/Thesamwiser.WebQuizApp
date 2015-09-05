@@ -1,7 +1,6 @@
 ﻿@model QuizWebApp.Models.QuizWebAppDb
 @using QuizWebApp
 @using QuizWebApp.Models
-@using QuizWebApp.Helpers
 @{
     var q = Model.Questions.Find(Model.Contexts.First().CurrentQuestionID);
     var playerID = this.User.Identity.UserId();
@@ -14,7 +13,7 @@
 
 <div class="well well-small">
     <div>
-        <p>q.Body</p>
+        <p>@q.Body</p>
     </div>
 </div>
 
@@ -60,6 +59,8 @@
 <div class="well well-small">
     @if (!string.IsNullOrWhiteSpace(q.Comment))
     {
-        <div><p>q.Comment</p></div>
+        <p>
+            @q.Comment
+        </p>
     }
 </div>

@@ -1,6 +1,6 @@
-﻿@model QuizWebApp.Models.PublicQuestion
+﻿@model QuizWebApp.Models.Question
 @{
-    ViewBag.Title = "Quiz - Q" + Model.QuestionNumber.ToString();
+    ViewBag.Title = "Quiz - Q" + Model.QuestionId;
     ViewBag.BodyCssClass = "public-questions-page";
 }
 <hgroup>
@@ -9,7 +9,7 @@
 </hgroup>
 
 <div class="well">
-    <div>@Html.Partial("_DisplayFormPartial", Model.Question)</div>
+    <div>@Html.Partial("_DisplayFormPartial", Model)</div>
     <div>
         <a href="javascript:history.back()" class="btn"><i class="icon-circle-arrow-left"></i> Go back</a>
     </div>

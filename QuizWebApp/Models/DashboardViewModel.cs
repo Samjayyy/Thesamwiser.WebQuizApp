@@ -6,24 +6,29 @@ namespace QuizWebApp.Models
 {
     public class DashboardViewModel
     {
-        public IEnumerable<User> Players { get; set; }
+        public IEnumerable<PlayerViewModel> Players { get; set; }
 
-        public IEnumerable<Answer> Answers { get; set; }
+        public ILookup<string, Answer> Answers { get; set; }
 
         public IEnumerable<Question> Questions { get; set; }
 
         public DashboardViewModel(QuizWebAppDb db)
         {
-            this.Answers = db.Answers.ToArray();
-            this.Questions = db.Questions.ToArray();
+            Answers = db.Answers.ToLookup(a => a.PlayerID);
+            Questions = db.Questions.ToArray();
 
             var users = db.Users.ToArray();
-            this.Players = users
+            Players = users
                 .Where(user =>
-                    this.Answers.Any(a => a.PlayerID == user.UserId) ||
+                    Answers[user.UserId].Any() ||
                     DateTime.UtcNow.AddMinutes(-30) <= user.AttendAsPlayerAt
-                )
-                .OrderBy(user => user.Name)
+                ).Select(user => new PlayerViewModel
+                {
+                    UserId = user.UserId,
+                    Name = user.Name,
+                    CurrentScore = Answers[user.UserId].Where(a => a.Status == AnswerStateType.Correct).Sum(a => a.AssignedValue)
+                })
+                .OrderByDescending(player => player.CurrentScore)
                 .ToArray();
         }
     }

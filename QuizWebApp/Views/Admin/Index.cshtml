@@ -8,8 +8,8 @@
     ViewBag.Title = "The progress of the quiz";
 
     var context = Model.Contexts.First();
-    
-    var states = new[] { 
+
+    var states = new[] {
         new SelectListItem{ Value="PleaseWait", Text="Please wait"},
         new SelectListItem{ Value="ChooseTheAnswer", Text="Choose the answer"},
         new SelectListItem{ Value="Closed", Text="Closed"},
@@ -33,19 +33,29 @@
         .ToArray();
 }
 
-
-<h2>@ViewBag.Title</h2>
-
-<h3>Current state</h3>
-
-@Html.DropDownList("currentState", states)
-
-<h3>Quiz problem that is currently selected:</h3>
-
-@Html.DropDownList("currentQuestion", questions)
-
-<hr />
-
-<div class="question-body">
-    @Html.Action("QuestionBody")
+<div class="panel panel-default">   
+    <div class="panel-heading">
+        <h2>@ViewBag.Title</h2>
+     </div>
+    <div class="panel-body">
+        <div class="actions">
+            <button type="button" class="btn btn-default" id="move-prev">
+                <span class="glyphicon glyphicon-circle-arrow-left"></span>
+            </button>
+            <button type="button" class="btn btn-default" id="move-next">
+                <span class="glyphicon glyphicon-circle-arrow-right"></span>
+            </button>
+        </div>
+        <h3>Current state</h3>
+        @Html.DropDownList("currentState", states)
+        <h3>Quiz problem that is currently selected:</h3>
+        @Html.DropDownList("currentQuestion", questions)
+    </div>
+    <div class="panel-footer">
+        <div class="question-body">
+            @Html.Action("QuestionBody")
+        </div>
+    </div>
 </div>
+
+

@@ -97,5 +97,13 @@ namespace QuizWebApp.Controllers
             this.DB.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult Detail(int id)
+        {
+            var question = DB.Questions.Find(id);
+            return View(question);
+        }
+
     }
 }

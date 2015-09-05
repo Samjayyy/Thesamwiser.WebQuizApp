@@ -4,7 +4,7 @@
     var conn = $.hubConnection();
     var contextHub = conn.createHubProxy("Context");
 
-    $(".options input:radio").live("click", function () {
+    $(document).on("change",".options input[type=radio]",function () {
         contextHub.invoke("PlayerSelectedOptionIndex", $(this).val());
     });
 

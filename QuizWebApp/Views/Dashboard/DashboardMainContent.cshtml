@@ -4,7 +4,7 @@
 <table class="dashboard">
     <tr>
         <th>Name</th>
-        <th class="score">Correct answers</th>
+        <th class="score">Score</th>
         @foreach(var n in Enumerable.Range(1, Model.Questions.Count()))
         {
             <th>@("Q" + n.ToString())</th>
@@ -16,11 +16,11 @@
         <tr>
             <td>@player.Name</td>
             <td class="score">
-                @Model.Answers.Count(a => a.PlayerID == player.UserId && a.Status == AnswerStateType.Correct)
+                @player.CurrentScore
             </td>
             @foreach (var q in Model.Questions.ToList())
             {
-                var ans = Model.Answers.FirstOrDefault(a => a.PlayerID == player.UserId && a.QuestionID == q.QuestionId) ?? new Answer();
+                var ans = Model.Answers[player.UserId].FirstOrDefault(a => a.QuestionID == q.QuestionId) ?? new Answer();
                 <td><span class="answer-status answer-status-@ans.Status">&nbsp;</span></td>
                 /*@(ans.AssignedValue == 0 ? "/" : ans.AssignedValue.ToString())*/
             }
