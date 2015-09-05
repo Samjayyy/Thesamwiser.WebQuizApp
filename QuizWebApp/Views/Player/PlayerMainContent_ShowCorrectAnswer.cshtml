@@ -1,0 +1,65 @@
+﻿@model QuizWebApp.Models.QuizWebAppDb
+@using QuizWebApp
+@using QuizWebApp.Models
+@using QuizWebApp.Helpers
+@{
+    var q = Model.Questions.Find(Model.Contexts.First().CurrentQuestionID);
+    var playerID = this.User.Identity.UserId();
+    var yourAns = Model.Answers.First(a => a.PlayerID == playerID && a.QuestionID == q.QuestionId);
+    var choosed = yourAns.ChoosedOptionIndex >= 0 ? q.GetOptions()[yourAns.ChoosedOptionIndex - 1] : null;
+    var correctOption = q.GetOptions()[q.IndexOfCorrectOption - 1];
+}
+
+<h3>Question</h3>
+
+<div class="well well-small">
+    <div>
+        <p>q.Body</p>
+    </div>
+</div>
+
+<h3>Chosen answer:</h3>
+
+<div class="well well-small">
+    <div class="options">
+        @if (choosed == null)
+        {
+            <p>No answer selected</p>
+        }
+        else
+        {
+            <div>@(choosed.Option)</div>
+            if (string.IsNullOrEmpty(choosed.OptionImage) == false)
+            {
+                <img src="@choosed.OptionImage" />
+            }
+        }
+    </div>
+
+    @if (yourAns.Status == AnswerStateType.Correct)
+    {
+        <h3 class="correct">Correct! :)</h3>
+    }
+    else
+    {
+        <h3 class="incorrect">Incorrect :(</h3>
+
+        <h4>The correct answer was:</h4>
+        <div class="options">
+            <div>@correctOption.Option</div>
+            @if (string.IsNullOrEmpty(correctOption.OptionImage) == false)
+            {
+                <img src="@correctOption.OptionImage" />
+            }
+        </div>
+    }
+</div>
+
+<h3>Comment:</h3>
+
+<div class="well well-small">
+    @if (!string.IsNullOrWhiteSpace(q.Comment))
+    {
+        <div><p>q.Comment</p></div>
+    }
+</div>

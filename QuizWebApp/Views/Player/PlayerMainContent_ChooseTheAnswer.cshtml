@@ -1,0 +1,32 @@
+﻿@model QuizWebApp.Models.QuizWebAppDb
+@using QuizWebApp.Models
+
+@{
+    var q = Model.Questions.Find(Model.Contexts.First().CurrentQuestionID);
+}
+<h3>Question</h3>
+
+<div class="well well-small">
+    <div>
+        <p>q.Body</p>
+    </div>
+</div>
+
+<h3>Please select an answer from the following</h3>
+
+<div class="well well-small">
+
+    @foreach (var opt in q.GetOptions())
+    {
+        <div class="options">
+            <input type="radio" name="option" value="@opt.OptionNumber" id="@("option" + opt.OptionNumber.ToString())" />
+            <label for="@("option" + opt.OptionNumber.ToString())">
+                @opt.Option
+                @if (string.IsNullOrEmpty(opt.OptionImage) == false)
+                {
+                    <img src="@opt.OptionImage" />
+                }
+            </label>
+        </div>
+    }
+</div>

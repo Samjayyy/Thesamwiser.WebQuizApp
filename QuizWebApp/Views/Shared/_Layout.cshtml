@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("header", required: false)
+</head>
+<body class="@ViewBag.BodyCssClass">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainmenu-nav">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Cap Quiz App", "Index", "Home", null, new { @class = "navbar-brand" })
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span class="navbar-brand">[@User.Identity.Name]</span>
+            }
+        </div>
+        <div class="collapse navbar-collapse" id="mainmenu-nav">
+            <ul class="nav navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Player")" class="btn btn-block">Quiz</a>
+                    </li>
+                }
+                <li>
+                    <a href="@Url.Action("Index", "Dashboard")" class="btn btn-block">Dashboard</a>
+                </li>
+                <li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a href="@Url.Action("SignOut", "Account")" id="signout" class="btn btn-block signout">Sign out</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("SignIn", "Account")" class="btn btn-block signin">Sign in</a>
+                    }
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Views/Shared/_Layout.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

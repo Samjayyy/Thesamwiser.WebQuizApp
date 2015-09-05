@@ -1,0 +1,31 @@
+﻿@model QuizWebApp.Models.DashboardViewModel
+@using QuizWebApp.Models
+
+<table class="dashboard">
+    <tr>
+        <th>Name</th>
+        <th class="score">Correct answers</th>
+        @foreach(var n in Enumerable.Range(1, Model.Questions.Count()))
+        {
+            <th>@("Q" + n.ToString())</th>
+        }
+    </tr>
+
+    @foreach (var player in Model.Players)
+    {
+        <tr>
+            <td>@player.Name</td>
+            <td class="score">
+                @Model.Answers.Count(a => a.PlayerID == player.UserId && a.Status == AnswerStateType.Correct)
+            </td>
+            @foreach (var q in Model.Questions.ToList())
+            {
+                var ans = Model.Answers.FirstOrDefault(a => a.PlayerID == player.UserId && a.QuestionID == q.QuestionId) ?? new Answer();
+                <td><span class="answer-status answer-status-@ans.Status">&nbsp;</span></td>
+                /*@(ans.AssignedValue == 0 ? "/" : ans.AssignedValue.ToString())*/
+            }
+        </tr>
+    }
+
+</table>
+

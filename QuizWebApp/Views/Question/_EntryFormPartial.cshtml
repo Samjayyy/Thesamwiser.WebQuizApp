@@ -1,0 +1,73 @@
+﻿@model QuizWebApp.Models.Question
+@using QuizWebApp.Models
+<fieldset class="form-horizontal">
+    <div class="control-group">
+        @Html.LabelFor(model => model.Body, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextAreaFor(model => model.Body, rows: 8, columns: 20, htmlAttributes: new { @class = "input-blockx span8" })
+            @Html.ValidationMessageFor(model => model.Body, null, new { @class = "help-inline" })
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <span class="label label-info about-option-image">
+                Even if it is shown only in the answer choices ... image, "Figure 1", etc. and please be sure the text is also entered.
+            </span>
+            <span class="label label-warning disability-option-image-setup">
+                Sorry, you can not set image in your browser. <br />
+                If the image is required for the answer choices, please use the latest version or another browser.
+            </span>
+        </div>
+    </div>
+
+    @foreach (var option in Model.GetOptions(trim: false))
+    {
+        var modelName = "Option" + option.OptionNumber.ToString();
+        var imageModelName = "OptionImage" + option.OptionNumber.ToString();
+        <div class="control-group">
+            @Html.Label(modelName, new { @class = "control-label" })
+            <div class="controls">
+                <div>
+                    @Html.TextBox(modelName, option.Option)
+                    @Html.ValidationMessage(modelName, new { @class = "help-inline" })
+                    @Html.Hidden(imageModelName, option.OptionImage, new { @class = "option-image-hidden" })
+                </div>
+                <div class="@((string.IsNullOrEmpty(option.OptionImage) ? "no-image" : "") + " image-holder")">
+                    <img id="@(modelName + "Image")" src="@option.OptionImage" class="option-image" />
+                    <div class="image-actions">
+                        <div class="btn-add-image">
+                            <a href="#" class="btn add-image">Set image</a>
+                            <input type="file" id="@("_" + modelName + "ImageFile")" class="option-image-file" tabindex="-1"/>
+                        </div>
+                        <a href="#" class="btn remove-image">Remove image</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="control-group">
+        @Html.LabelFor(model => model.IndexOfCorrectOption, new { @class = "control-label" })
+        <div class="controls">
+            @Html.DropDownListFor(model => model.IndexOfCorrectOption, Enumerable.Range(1, 4).Select(n => new SelectListItem { Text = n.ToString() }))
+            @Html.ValidationMessageFor(model => model.IndexOfCorrectOption, null, new { @class = "help-inline" })
+        </div>
+    </div>
+
+    <div class="control-group">
+        @Html.LabelFor(model => model.Comment, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextAreaFor(model => model.Comment, rows: 8, columns: 20, htmlAttributes: new { @class = "span8" })
+            @Html.ValidationMessageFor(model => model.Comment, null, new { @class = "help-inline" })
+        </div>
+    </div>
+
+    <div class="form-actions no-color">
+        <input type="submit" value="OK" class="btn btn-primary" />
+        <a href="@Url.Action("Index")" class="btn">Cancel</a>
+    </div>
+</fieldset>
+
+
+

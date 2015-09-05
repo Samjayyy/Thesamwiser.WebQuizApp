@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Welcome";
+}
+<div>
+    <div class="pnl pnl-default">
+        @if (this.User.Identity.IsAuthenticated)
+        {
+            <p>Welkom, ga naar quiz om te spelen:</p>
+            <p>
+                <a href="@Url.Action("Index", "Player")" class="btn btn-block btn-large btn-primary">Quiz</a>
+            </p>
+            if (ViewBag.IsQuizMaster == true)
+            {
+                <p>
+                    <a href="@Url.Action("Index", "Question")" class="btn btn-block btn-large">Questions</a>
+                    <a href="@Url.Action("Index", "Admin")" class="btn btn-block btn-large">Quiz admin</a>
+                </p>
+            }
+        }
+        else
+        {
+            <p>
+                <a href="@Url.Action("SignIn", "Account")" class="btn btn-block btn-large btn-primary">Sign In</a>
+            </p>
+        }
+    </div>
+</div>

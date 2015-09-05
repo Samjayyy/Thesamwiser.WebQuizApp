@@ -1,0 +1,27 @@
+﻿@model IEnumerable<QuizWebApp.Models.Question>
+@{
+    ViewBag.Title = "Posted Quiz problems";
+}
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    <h3>@ViewBag.Message</h3>
+</hgroup>
+
+<div style="margin-bottom:1em;">
+    <a href="@Url.Action("Create")" class="btn btn-primary"><i class="icon-plus icon-white"></i> Add a new problem</a>
+</div>
+
+<div>
+    @foreach (var question in Model)
+    {
+        <h3>Q @question.QuestionId</h3>
+        <div>
+            <div><pre>question.Body</pre></div>
+            <div>
+                <a href="@Url.Action("Detail", new { id = question.QuestionId })" class="btn"><i class="icon-circle-arrow-right"></i> Detail</a>
+                <a href="@Url.Action("Edit", new { id = question.QuestionId })" class="btn"><i class="icon-edit"></i> Edit</a>
+                <a href="@Url.Action("Delete", new { id = question.QuestionId })" class="btn"><i class="icon-trash"></i> Delete</a>
+            </div>
+        </div>
+    }
+</div>

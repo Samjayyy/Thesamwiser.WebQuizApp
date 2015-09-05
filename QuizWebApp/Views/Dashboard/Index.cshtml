@@ -1,0 +1,17 @@
+﻿@using QuizWebApp.Models
+@model QuizWebApp.Models.DashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.BodyCssClass = "dashboard-page";
+}
+@section scripts{
+    <script type="text/javascript" src="~/Views/Dashboard/Dashboard.js"></script>    
+}
+
+
+<h2>@ViewBag.Title</h2>
+
+<div class="main-content">
+    @Html.Partial("DashboardMainContent", Model)
+</div>
