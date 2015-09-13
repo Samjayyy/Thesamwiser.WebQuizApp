@@ -9,39 +9,15 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-sm-8">
-            <span class="label label-info about-option-image">
-                Even if it is shown only in the answer choices ... image, "Figure 1", etc. and please be sure the text is also entered.
-            </span>
-            <span class="label label-warning disability-option-image-setup">
-                Sorry, you can not set image in your browser. <br />
-                If the image is required for the answer choices, please use the latest version or another browser.
-            </span>
-        </div>
-    </div>
-
-    @foreach (var option in Model.GetOptions(trim: false))
+    @foreach (var option in Model.GetAllOptions())
     {
         var modelName = "Option" + option.OptionNumber.ToString();
-        var imageModelName = "OptionImage" + option.OptionNumber.ToString();
         <div class="form-group">
             @Html.Label(modelName, new { @class = "control-label col-sm-2" })
             <div class="col-sm-8">
                 <div>
                     @Html.TextBox(modelName, option.Option, new {@class = "form-control" })
                     @Html.ValidationMessage(modelName, new { @class = "help-inline" })
-                    @Html.Hidden(imageModelName, option.OptionImage, new { @class = "option-image-hidden" })
-                </div>
-                <div class="@((string.IsNullOrEmpty(option.OptionImage) ? "no-image" : "") + " image-holder")">
-                    <img id="@(modelName + "Image")" src="@option.OptionImage" class="option-image" />
-                    <div class="image-actions">
-                        <div class="btn-add-image">
-                            <a href="#" class="btn add-image">Set image</a>
-                            <input type="file" id="@("_" + modelName + "ImageFile")" class="option-image-file form-control" tabindex="-1"/>
-                        </div>
-                        <a href="#" class="btn remove-image">Remove image</a>
-                    </div>
                 </div>
             </div>
         </div>

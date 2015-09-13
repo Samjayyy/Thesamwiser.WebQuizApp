@@ -5,15 +5,15 @@
     <div class="pnl pnl-default">
         @if (this.User.Identity.IsAuthenticated)
         {
-            <p>Welkom, ga naar quiz om te spelen:</p>
             <p>
-                <a href="@Url.Action("Index", "Player")" class="btn btn-block btn-large btn-primary">Quiz</a>
+                <a href="@Url.Action("Index", "Player")" class="btn btn-block btn-large btn-primary">Go to Quiz</a>
             </p>
-            if (ViewBag.IsQuizMaster == true)
+            if (ViewBag.IsQuizMaster)
             {
                 <p>
                     <a href="@Url.Action("Index", "Question")" class="btn btn-block btn-large">Questions</a>
                     <a href="@Url.Action("Index", "Admin")" class="btn btn-block btn-large">Quiz admin</a>
+                    <a href="@Url.Action("Current", "Dashboard")" class="btn btn-block btn-large">Current question dashboard</a>
                 </p>
             }
         }

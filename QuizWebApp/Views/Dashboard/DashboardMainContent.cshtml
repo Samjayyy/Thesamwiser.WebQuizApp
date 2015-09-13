@@ -1,31 +1,61 @@
 ﻿@model QuizWebApp.Models.DashboardViewModel
 @using QuizWebApp.Models
-
-<table class="dashboard">
-    <tr>
-        <th>Name</th>
-        <th class="score">Score</th>
-        @foreach(var n in Enumerable.Range(1, Model.Questions.Count()))
-        {
-            <th>@("Q" + n.ToString())</th>
-        }
-    </tr>
-
-    @foreach (var player in Model.Players)
-    {
-        <tr>
-            <td>@player.Name</td>
-            <td class="score">
-                @player.CurrentScore
-            </td>
-            @foreach (var q in Model.Questions.ToList())
-            {
-                var ans = Model.Answers[player.UserId].FirstOrDefault(a => a.QuestionID == q.QuestionId) ?? new Answer();
-                <td><span class="answer-status answer-status-@ans.Status">&nbsp;</span></td>
-                /*@(ans.AssignedValue == 0 ? "/" : ans.AssignedValue.ToString())*/
+<div class="table-responsive panel panel-default">
+    <table id="dashboard-table" class="table dashboard table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th class="col-fix">Pos</th>
+                <th class="col-fix">Name</th>
+                <th class="col-fix">Score</th>
+                @foreach (var n in Enumerable.Range(1, Model.Questions.Count()))
+                {
+                    <th>@("Q" + n.ToString())</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var lastScore = int.MaxValue;
+                var currentPlace = 0;
             }
-        </tr>
-    }
-
-</table>
+            @foreach (var player in Model.Players)
+            {
+                <tr>
+                    <td class="col-fix" style="background-color:rgb(@player.Red, @player.Green, 0);">
+                        @{
+                            currentPlace++;
+                            if (lastScore != player.CurrentScore)
+                            {
+                                lastScore = player.CurrentScore;
+                                @currentPlace // only show when different score than previous player in ranking
+                            }
+                        }
+                        &nbsp;
+                    </td>
+                    <td class="col-fix" style="background-color:rgb(@player.Red, @player.Green, 0);">
+                        <strong>@player.Name</strong>
+                    </td>
+                    <td class="col-fix text-right" style="background-color:rgb(@player.Red, @player.Green, 0);">
+                        @player.CurrentScore
+                    </td>
+                    @foreach (var q in Model.Questions.ToList())
+                    {
+                        Answer ans;
+                        if (Model.Answers.ContainsKey(player.UserId) &&
+                            Model.Answers[player.UserId].ContainsKey(q.QuestionId))
+                        {
+                            ans = Model.Answers[player.UserId][q.QuestionId];
+                        }
+                        else
+                        {
+                            ans = new Answer(); // empty answer
+                        }
+                        <td><span class="answer-status answer-status-@ans.Status">&nbsp;</span></td>
+                        /*@(ans.AssignedValue == 0 ? "/" : ans.AssignedValue.ToString())*/
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 

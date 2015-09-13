@@ -26,7 +26,7 @@ namespace QuizWebApp
             {
                 if (!db.Contexts.Any())
                 {
-                    db.Contexts.Add(new Context { CurrentQuestionID = 1, CurrentState = ContextStateType.PleaseWait });
+                    db.Contexts.Add(new Context { CurrentQuestionID = 1, CurrentState = ContextStateType.PleaseWait, IsDashboardAvailableForUsers = true });
                     db.SaveChanges();
                 }
             }

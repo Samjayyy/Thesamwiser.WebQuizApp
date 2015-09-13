@@ -1,0 +1,19 @@
+﻿@model QuizWebApp.Models.CurrentDashboardViewModel
+
+@{
+    ViewBag.Title = "Current question";
+    ViewBag.BodyCssClass = "dashboard-page";
+}
+@section scripts{
+    <script type="text/javascript" src="~/Views/Dashboard/Dashboard.js"></script>    
+    <script type="text/javascript">
+        setupDashBoard("/Dashboard/LatestCurrent", function (event) { });
+    </script>
+}
+
+
+<h2>@ViewBag.Title</h2>
+
+<div class="main-content">
+    @Html.Partial("CurrentDashboardMainContent", Model)
+</div>

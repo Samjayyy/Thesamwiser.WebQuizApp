@@ -1,6 +1,58 @@
 ﻿body {
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
 }
+/* RADIO BUTTON MARK UP*/
+.options [type="radio"] {
+  border: 0; 
+  clip: rect(0 0 0 0); 
+  height: 1px; margin: -1px; 
+  overflow: hidden; 
+  padding: 0; 
+  position: absolute; 
+  width: 1px;
+}
+
+/* One radio button per line */
+.options label {
+  display: block;
+  cursor: pointer;
+  line-height: 2.5;
+  font-size: 1.5em;
+}
+
+.options [type="radio"] + span {
+  display: block;
+}
+
+/* the basic, unchecked style */
+.options [type="radio"] + span:before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.25em;
+  border-radius: 1em;
+  border: 0.125em solid #fff;
+  box-shadow: 0 0 0 0.15em #000;
+  margin-right: 0.75em;
+  transition: 0.5s ease all;
+}
+
+/* the checked style using the :checked pseudo class */
+.options [type="radio"]:checked + span:before {
+  background: green;
+  box-shadow: 0 0 0 0.25em #000;
+}
+
+/* never forget focus styling */
+.options [type="radio"]:focus + span:after {
+  content: '\0020\2190';
+  font-size: 1.5em;
+  line-height: 1;
+  vertical-align: -0.125em;
+}
+/* END RADIO MARKUP */
+
 /* styles for validation helpers */
 .field-validation-error {
     color: #b94a48;
@@ -42,16 +94,6 @@ input[type="checkbox"].input-validation-error {
     padding: 10px;
     font-size: 90%;
 }
-
-
-.options label {
-    cursor: pointer;
-}
-
-    .options label img {
-        display: block;
-    }
-
 .answer-status {
     display: block;
     width: 2em;
@@ -79,7 +121,7 @@ input[type="checkbox"].input-validation-error {
 
 /* Player
 -----------------------------------------------------------*/
-pre {
+.highlight-info {
     font-family: Consolas, monospace;
     border: solid 1px;
     border-color: #0094ff;
@@ -116,71 +158,21 @@ pre {
         display: block;
         margin-left: 1em;
     }
-
-
-.dashboard-page .nav .link-dashboard {
-    display: none;
-}
+/* DASHBOARD */
 .dashboard {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
+.dashboard th {
+    background-color: #0099FF;
+    color: #FFF;
+} 
 
-    .dashboard .score {
-        text-align: right;
-        width: 60px;
-        padding-right: 8px;
-    }
-
-.public-questions-page .nav .link-public-questions {
-    display: none;
-}
-
-/*  */
-.about-option-image,
-.disability-option-image-setup {
-    display: none;
-}
-.fileapi .about-option-image,
-.no-fileapi .disability-option-image-setup {
-    display: inline-block;
-}
-
-.image-holder {
-    padding-top: 4px;
-}
-
-img.no-image,
-.no-image img,
-.no-image .btn.remove-image {
-    display: none;
-}
-
-.btn-add-image {
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-}
-
-.no-fileapi .btn-add-image {
-    display: none;
-}
-
-.option-image-file {
+.fixed-column {
     position: absolute;
-    top: 0;
-    right: 0;
-    opacity: 0.001;
-    font-size: 300px;
-    height: 300px;
-    cursor: pointer;
-}
-
-.remove-image {
-    vertical-align: top;
-}
-
-.image-actions {
-    margin-top: 4px;
+    display: inline-block;
+    width: auto;
+    border-right: 3px solid #333;
+    background-color:#FFF;
 }

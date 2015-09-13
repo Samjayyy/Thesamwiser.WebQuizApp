@@ -34,8 +34,6 @@ namespace QuizWebApp.Controllers
         [HttpPost]
         public ActionResult Create(Question model)
         {
-            if (IsValidDataURL(model) == false) throw new ApplicationException("Invalid Data URL.");
-
             if(!ModelState.IsValid)
             {
                 return View(model);
@@ -68,18 +66,8 @@ namespace QuizWebApp.Controllers
                 includeProperties: null,
                 excludeProperties: new[] { "QuestionId", "OwnerUserId", "CreateAt" });
 
-            if (IsValidDataURL(question) == false) throw new ApplicationException("Invalid Data URL.");
-
             DB.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        private bool IsValidDataURL(Question model)
-        {
-            return model.GetOptions(trim: false)
-                .Where(opt => !string.IsNullOrWhiteSpace(opt.OptionImage))
-                .Select(opt => opt.OptionImage)
-                .All(url => Regex.IsMatch(url, @"(^data:image/\w+;\w+,[0-9a-zA-Z/+=]+$)|(^$)"));
         }
 
         [HttpGet]
@@ -103,6 +91,12 @@ namespace QuizWebApp.Controllers
         {
             var question = DB.Questions.Find(id);
             return View(question);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            this.DB.Dispose();
+            base.Dispose(disposing);
         }
 
     }

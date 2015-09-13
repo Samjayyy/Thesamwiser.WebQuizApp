@@ -6,13 +6,10 @@
 
         public string Option { get; set; }
 
-        public string OptionImage { get; set; }
-
-        public OptionViewModel(int optionNumber, string option, string optionImage)
+        public OptionViewModel(int optionNumber, string option)
         {
             this.OptionNumber = optionNumber;
             this.Option = option;
-            this.OptionImage = optionImage;
         }
     }
 }

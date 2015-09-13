@@ -1,0 +1,35 @@
+﻿@model QuizWebApp.Models.CurrentDashboardViewModel
+@using QuizWebApp.Models
+<div class="table-responsive panel panel-default">
+    <table class="table dashboard table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Question</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in Model.Players)
+            {
+                <tr>
+                    <td>
+                        <strong>@player.Name</strong>
+                    </td>
+                    @{ 
+                        Answer ans;
+                        if (Model.Answers.ContainsKey(player.UserId))
+                        {
+                            ans = Model.Answers[player.UserId];
+                        }
+                        else
+                        {
+                            ans = new Answer(); // empty answer
+                        }
+                    }
+                    <td><span class="answer-status answer-status-@ans.Status">&nbsp;</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

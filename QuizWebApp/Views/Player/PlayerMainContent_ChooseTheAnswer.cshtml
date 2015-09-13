@@ -1,35 +1,23 @@
-﻿@model QuizWebApp.Models.QuizWebAppDb
-@using QuizWebApp.Models
-
-@{
-    var q = Model.Questions.Find(Model.Contexts.First().CurrentQuestionID);
-}
+﻿@model QuizWebApp.Models.PlayerQuestionViewModel
 <h3>Question</h3>
 
 <div class="well well-small">
-    <div>
-        <p>@q.Body</p>
-    </div>
+    <p>@Html.Raw(Model.Question.Body)</p>
 </div>
 
 <h3>Please select an answer from the following</h3>
 
-<div class="well well-small">
+<div class="well well-small options" id="questionoptions">
 
-    @foreach (var opt in q.GetOptions())
+    @foreach (var opt in @Model.Question.GetOptions())
     {
-        <div class="options">
-            <input type="radio" name="option" value="@opt.OptionNumber" id="@("option" + opt.OptionNumber.ToString())" />
-            <label for="@("option" + opt.OptionNumber.ToString())">
-                @opt.Option
-                @if (string.IsNullOrEmpty(opt.OptionImage) == false)
-                {
-                    <img src="@opt.OptionImage" />
-                }
-            </label>
-        </div>
+        var isChecked = (@opt.OptionNumber == @Model.Answer.ChosenOptionIndex ? "checked" : "");
+        <label for="@("option" + opt.OptionNumber.ToString())">
+            <input type="radio" name="option" value="@opt.OptionNumber" id="@("option" + opt.OptionNumber.ToString())" @isChecked />
+            <span>@opt.Option</span>
+        </label>
     }
 </div>
-<pre>
-    <span class="glyphicon glyphicon-info-sign"></span> Click on the answer which you think is correct
-</pre>
+<div class="well well-small highlight-info">
+    <span class="glyphicon glyphicon-info-sign"></span> Click on the answer which you think is correct and wait for moderator to go to the next question ..
+</div>

@@ -1,6 +1,25 @@
 ﻿@model QuizWebApp.Models.Question
 @using QuizWebApp.Models
 
-@if (Model != null) {
-    <text>@Model.Body</text>
+@if (Model != null)
+{
+
+    <h3>
+        @Html.DisplayNameFor(m => m.Body)
+    </h3>
+    <div class="well well-small">
+        <p>@Html.Raw(Model.Body)</p>
+    </div>
+
+    <h3>Possible answers:</h3>
+    <div class="well well-small">
+        <ol>
+            @foreach (var option in Model.GetOptions())
+            {
+                <li>
+                    <div>@option.Option</div>
+                </li>
+            }
+        </ol>
+    </div>
 }

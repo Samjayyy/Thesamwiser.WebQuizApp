@@ -8,7 +8,7 @@
 
         public int QuestionID { get; set; }
 
-        public int ChoosedOptionIndex { get; set; }
+        public int ChosenOptionIndex { get; set; }
 
         public int AssignedValue { get; set; }
 

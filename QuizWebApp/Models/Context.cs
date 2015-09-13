@@ -13,5 +13,7 @@
         /// 3: "show correct answer."
         /// </summary>
         public ContextStateType CurrentState { get; set; }
+
+        public bool IsDashboardAvailableForUsers { get; set; }
     }
 }

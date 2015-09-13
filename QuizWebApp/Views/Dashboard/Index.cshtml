@@ -1,12 +1,14 @@
-﻿@using QuizWebApp.Models
-@model QuizWebApp.Models.DashboardViewModel
+﻿@model QuizWebApp.Models.DashboardViewModel
 
 @{
     ViewBag.Title = "Dashboard";
     ViewBag.BodyCssClass = "dashboard-page";
 }
 @section scripts{
-    <script type="text/javascript" src="~/Views/Dashboard/Dashboard.js"></script>    
+    <script type="text/javascript" src="~/Views/Dashboard/Dashboard.js"></script>
+    <script type="text/javascript">
+        setupDashBoard("/Dashboard/LatestDashboard", fixTable);
+    </script>
 }
 
 

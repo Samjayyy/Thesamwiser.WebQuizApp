@@ -16,7 +16,9 @@
     {
         <h3>Q @question.QuestionId</h3>
         <div>
-            <div><pre>@question.Body</pre></div>
+            <div class="well well-small">
+                <p>@Html.Raw(question.Body)</p>
+            </div>
             <div>
                 <a href="@Url.Action("Detail", new { id = question.QuestionId })" class="btn"><i class="icon-circle-arrow-right"></i> Detail</a>
                 <a href="@Url.Action("Edit", new { id = question.QuestionId })" class="btn"><i class="icon-edit"></i> Edit</a>

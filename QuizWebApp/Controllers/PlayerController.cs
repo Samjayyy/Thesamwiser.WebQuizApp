@@ -34,12 +34,40 @@ namespace QuizWebApp.Controllers
             var answer = DB.Answers.FirstOrDefault(a => a.PlayerID == playerID && a.QuestionID == questionID);
             if (answer == null)
             {
-                answer = new Answer { PlayerID = playerID, QuestionID = questionID, ChoosedOptionIndex = -1 };
+                answer = new Answer { PlayerID = playerID, QuestionID = questionID, ChosenOptionIndex = -1 };
                 DB.Answers.Add(answer);
                 DB.SaveChanges();
             }
+            var model = new PlayerQuestionViewModel
+            {
+                Answer = answer,
+                Question = DB.Questions.Find(questionID),
+            };
+            return PartialView("PlayerMainContent_" + context.CurrentState.ToString(), model);
+        }
 
-            return PartialView("PlayerMainContent_" + context.CurrentState.ToString(), DB);
+        [HttpPost]
+        public ActionResult PlayerSelectedOptionIndex(int answerIndex)
+        {
+            var context = DB.Contexts.First();
+            if (context.CurrentState == ContextStateType.ChooseTheAnswer)
+            { 
+                // still in legal state
+                var playerId = User.Identity.UserId();
+                var questionId = context.CurrentQuestionID;
+                var answer = DB.Answers.First(a => a.PlayerID == playerId && a.QuestionID == questionId);
+                answer.ChosenOptionIndex = answerIndex;
+                answer.AssignedValue = 1;
+                answer.Status = AnswerStateType.Pending;/*entried*/
+                DB.SaveChanges();
+            }
+            return Json(new { });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            this.DB.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

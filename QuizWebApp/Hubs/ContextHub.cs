@@ -2,60 +2,23 @@
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using QuizWebApp.Models;
-using System;
 
 namespace QuizWebApp.Hubs
 {
+    /// <summary>
+    /// Hub is only used as a notification mechanism.
+    /// The actual actions are put into the controllers, where security is checked
+    /// </summary>
     [HubName("Context")]
     public class ContextHub : Hub
     {
         public void UpdateCurrentState(ContextStateType state)
-        {
-            using (var db = new QuizWebAppDb())
-            {
-                var context = db.Contexts.First();
-                context.CurrentState = state;
-
-                // if change state to "3:show answer", judge to all players.
-                if (state == ContextStateType.ShowCorrectAnswer)
-                {
-                    var answers = db
-                        .Answers
-                        .Where(a => a.QuestionID == context.CurrentQuestionID)
-                        .ToList();
-                    var currentQuestion = db.Questions.Find(context.CurrentQuestionID);
-
-                    answers
-                        .ForEach(a => a.Status =
-                            a.ChoosedOptionIndex == currentQuestion.IndexOfCorrectOption
-                            ? AnswerStateType.Correct : AnswerStateType.Incorrect);
-                }
-
-                db.SaveChanges();
-            }
-
+        {            
             Clients.All.CurrentStateChanged(state.ToString());
         }
 
-        public void PlayerSelectedOptionIndex(int answerIndex)
+        public void PlayerSelectedOptionIndex()
         {
-            using (var db = new QuizWebAppDb())
-            {
-                var context = db.Contexts.First();
-                if(context.CurrentState != ContextStateType.ChooseTheAnswer)
-                {
-                    throw new InvalidOperationException("Changing your answer is disabled at this time!");
-                }
-                var playerId = Context.User.Identity.UserId();
-                var questionId = context.CurrentQuestionID;
-                var answer = db.Answers.First(a => a.PlayerID == playerId && a.QuestionID == questionId);
-                answer.ChoosedOptionIndex = answerIndex;
-                answer.AssignedValue = 1;
-                answer.Status = AnswerStateType.Pending;/*entried*/
-
-                db.SaveChanges();
-            }
-
             Clients.Others.PlayerSelectedOptionIndex();
         }
     }

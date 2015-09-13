@@ -194,6 +194,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Code\AuthorizeDashboard.cs" />
+    <Compile Include="Code\AuthorizeContextSetting.cs" />
     <Compile Include="Code\AuthorizeQuizMaster.cs" />
     <Compile Include="Code\JsonAppSettings.cs" />
     <Compile Include="Code\IIdentityExtension.cs" />
@@ -209,9 +211,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Answer.cs" />
+    <Compile Include="Models\CurrentDashboardViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\OptionViewModel.cs" />
+    <Compile Include="Models\PlayerQuestionViewModel.cs" />
     <Compile Include="Models\QuizWebAppDb.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\SignInViewModel.cs" />
@@ -227,6 +231,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -298,7 +303,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\capquiz.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Migration\Insert random answers.sql" />
+    <Content Include="Migration\Insert questions.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -362,10 +370,11 @@
     <Content Include="Views\Question\Index.cshtml" />
     <Content Include="Views\Question\_DisplayFormPartial.cshtml" />
     <Content Include="Views\Question\_EntryFormPartial.cshtml" />
+    <Content Include="Views\Dashboard\Current.cshtml" />
+    <Content Include="Views\Dashboard\CurrentDashboardMainContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

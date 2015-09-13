@@ -25,7 +25,7 @@ namespace QuizWebApp.Controllers
         [HttpPost]
         public ActionResult SignIn(SignInViewModel model)
         {
-            if (ModelState.IsValid == false)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -34,8 +34,8 @@ namespace QuizWebApp.Controllers
             var user = new User
             {
                 Name = model.HandleName,
-                UserId = GetHashedText(string.Join("@", salt, model.HandleName)),
-                Pass = GetHashedText(string.Join(";", salt, model.Pass)),
+                UserId = GetHashedText(string.Join("@", salt, model.HandleName.ToUpperInvariant())),
+                Pass = GetHashedText(string.Join(";", salt, model.HandleName.ToUpperInvariant(), salt, model.Pass)),
                 AttendAsPlayerAt = DateTime.UtcNow,
                 IsAdmin = false,
             };
@@ -54,7 +54,7 @@ namespace QuizWebApp.Controllers
                 }
                 else if (existing.Pass != user.Pass)
                 {
-                    ModelState.AddModelError("pass","User in use with other password");
+                    ModelState.AddModelError("HandleName", "User already in use with other password");
                     return View(model);
                 }
             }
@@ -71,7 +71,7 @@ namespace QuizWebApp.Controllers
         [HttpPost]
         public ActionResult SignOut()
         {
-            if (this.User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 using (var db = new QuizWebAppDb())
                 {

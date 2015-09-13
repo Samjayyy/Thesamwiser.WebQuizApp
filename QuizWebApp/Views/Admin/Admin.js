@@ -14,8 +14,12 @@
     var conn = $.hubConnection();
     var contextHub = conn.createHubProxy("Context");
     $(document).on("change", "#currentState", function () {
-        contextHub.invoke("UpdateCurrentState", $(this).val());
-        updateViewState();
+        var state = $(this).val();
+        $.post("/Admin/CurrentState",{ "state": state },
+            function () {
+                contextHub.invoke("UpdateCurrentState", state);
+                updateViewState();
+            });
     });
 
     $(document).on("change","#currentQuestion", function () {
@@ -23,7 +27,7 @@
             "/Admin/CurrentQuestion",
             { "questionID": $(this).val() },
             function () {
-                $(".question-body").load("/Admin/QuestionBody");
+                $(document.getElementById("question-body")).load("/Admin/QuestionBody");
             });
     });
     var goPrev = function (dropdown) {

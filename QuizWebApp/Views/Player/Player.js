@@ -4,8 +4,12 @@
     var conn = $.hubConnection();
     var contextHub = conn.createHubProxy("Context");
 
-    $(document).on("change",".options input[type=radio]",function () {
-        contextHub.invoke("PlayerSelectedOptionIndex", $(this).val());
+    $(document).on("change", "#questionoptions input[type=radio]", function () {
+        var answerIndex = $(this).val();
+        $.post("/Player/PlayerSelectedOptionIndex", { "answerIndex": answerIndex },
+        function () {
+            contextHub.invoke("PlayerSelectedOptionIndex");
+        });
     });
 
     contextHub.on("CurrentStateChanged", function (newState) {

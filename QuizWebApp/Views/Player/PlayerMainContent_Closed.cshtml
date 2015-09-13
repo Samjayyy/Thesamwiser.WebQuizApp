@@ -1,40 +1,26 @@
-﻿@model QuizWebApp.Models.QuizWebAppDb
-@using QuizWebApp
-@using QuizWebApp.Models
-@{
-    var q = Model.Questions.Find(Model.Contexts.First().CurrentQuestionID);
-    var playerID = this.User.Identity.UserId();
-    var yourAns = Model.Answers.First(a => a.PlayerID == playerID && a.QuestionID == q.QuestionId);
-    var choosed = yourAns.ChoosedOptionIndex >= 0 ? q.GetOptions()[yourAns.ChoosedOptionIndex - 1] : null;
-}
-
+﻿@model QuizWebApp.Models.PlayerQuestionViewModel
 <h3>Question</h3>
 
 <div class="well well-small">
-    <div>
-        <p>@q.Body</p>
-    </div>
+    <p>@Html.Raw(Model.Question.Body)</p>
 </div>
 
 <h3>Your chosen answer:</h3>
 
 <div class="well well-small">
 
-    <div class="options">
-        @if (choosed == null)
+    <div>
+        @if (Model.Answer.ChosenOptionIndex > 0)
         {
-            <p>No answer selected</p>
+            var chosen = Model.Question.GetOptions()[Model.Answer.ChosenOptionIndex-1];
+            <div>@(chosen.Option)</div>
         }
         else
         {
-            <div>@(choosed.Option)</div>
-            if (string.IsNullOrEmpty(choosed.OptionImage) == false)
-            {
-                <img src="@choosed.OptionImage" />
-            }
+            <p>No answer selected</p>
         }
     </div>
 </div>
-<pre>
+<div class="highlight-info">
     <span class="glyphicon glyphicon-info-sign"></span> Question closed, wait for correct answer..
-</pre>
+</div>
