@@ -26,6 +26,17 @@ namespace QuizWebApp.Controllers
         }
 
         [HttpGet]
+        public ActionResult Overview()
+        {
+            var questions = DB.Questions
+                .OrderBy(q => q.CreateAt)
+                .ToArray();
+            ViewBag.ShowAll = Request.QueryString["ShowAll"] != null;
+            return View(questions);
+        }
+
+
+        [HttpGet]
         public ActionResult Create()
         {
             return View(new Question());

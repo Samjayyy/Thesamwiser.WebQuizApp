@@ -1,0 +1,42 @@
+﻿@model IEnumerable<QuizWebApp.Models.Question>
+@{
+    ViewBag.Title = "Overview";
+}
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+</hgroup>
+
+<div>
+    @{ 
+        var counter = 1;
+    }
+    @foreach (var question in Model)
+    {
+        <h3>Q @(counter++)</h3>
+        <div>
+            <div>
+                <p>@Html.Raw(question.Body)</p>
+                <div>
+                    <ol>
+                        @foreach (var option in question.GetOptions())
+                        {
+                            <li>
+                                <div>@option.Option</div>
+                            </li>
+                        }
+                    </ol>
+                </div>
+                @if (ViewBag.ShowAll != null && ViewBag.ShowAll)
+                {
+                    <p>
+                        Correct answer: @question.IndexOfCorrectOption
+                    </p>
+                    <div>
+                        <p>@Html.Raw(question.Comment)</p>
+                    </div>
+                }
+            </div>
+            <hr />
+        </div>
+    }
+</div>

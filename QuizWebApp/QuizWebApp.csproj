@@ -372,6 +372,7 @@
     <Content Include="Views\Question\_EntryFormPartial.cshtml" />
     <Content Include="Views\Dashboard\Current.cshtml" />
     <Content Include="Views\Dashboard\CurrentDashboardMainContent.cshtml" />
+    <Content Include="Views\Question\Overview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
