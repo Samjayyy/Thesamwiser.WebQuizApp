@@ -46,7 +46,7 @@ namespace QuizWebApp.Models
                 }
                 else
                 {
-                    var val = (255 * p) / (players.Length - 1);
+                    var val = (255 * p) / players.Length;
                     players[p].Green = 255 - val;
                     players[p].Red = val;
                 }
