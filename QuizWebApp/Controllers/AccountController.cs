@@ -36,7 +36,7 @@ namespace QuizWebApp.Controllers
                 Name = model.HandleName,
                 UserId = GetHashedText(string.Join("@", salt, model.HandleName.ToUpperInvariant())),
                 Pass = GetHashedText(string.Join(";", salt, model.HandleName.ToUpperInvariant(), salt, model.Pass)),
-                AttendAsPlayerAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow,
                 IsAdmin = false,
             };
 
@@ -73,15 +73,6 @@ namespace QuizWebApp.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                using (var db = new QuizWebAppDb())
-                {
-                    var userInfo = db.Users.Find(User.Identity.UserId());
-                    if (userInfo != null)
-                    {
-                        userInfo.AttendAsPlayerAt = null;
-                        db.SaveChanges();
-                    }
-                }
                 FormsAuthentication.SignOut();
             }
             return Json(new { url = this.Url.Content("~/") });

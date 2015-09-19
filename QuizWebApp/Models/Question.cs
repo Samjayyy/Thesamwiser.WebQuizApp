@@ -8,6 +8,15 @@ namespace QuizWebApp.Models
 {
     public class Question
     {
+        /// <summary>
+        /// Default ctor
+        /// </summary>
+        public Question()
+        {
+            CreateAt = DateTime.UtcNow;
+        }
+
+        [Key]
         public int QuestionId { get; set; }
 
         public string OwnerUserId { get; set; }
@@ -55,10 +64,5 @@ namespace QuizWebApp.Models
 
         [Display(Name = "Created at")]
         public DateTime CreateAt { get; set; }
-
-        public Question()
-        {
-            this.CreateAt = DateTime.UtcNow;
-        }
     }
 }

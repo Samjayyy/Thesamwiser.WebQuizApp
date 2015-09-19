@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
 
 namespace QuizWebApp.Models
 {
@@ -13,16 +11,6 @@ namespace QuizWebApp.Models
         public DbSet<Answer> Answers { get; set; }
 
         public DbSet<Context> Contexts { get; set; }
-
-        public IEnumerable<int> GetPublicQuestionIds()
-        {
-            var publicQuestionIds = this.Answers
-                .Where(a => new[] { AnswerStateType.Correct, AnswerStateType.Incorrect }.Contains(a.Status))
-                .Select(a => a.QuestionID)
-                .Distinct()
-                .ToArray();
-            return publicQuestionIds;
-        }
 
     }
 }

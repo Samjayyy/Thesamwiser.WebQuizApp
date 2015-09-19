@@ -10,12 +10,6 @@ namespace QuizWebApp
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { action = "GetQuestions", id = RouteParameter.Optional }
-            );
-
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

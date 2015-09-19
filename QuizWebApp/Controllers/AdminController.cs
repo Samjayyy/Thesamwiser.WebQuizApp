@@ -8,7 +8,7 @@ namespace QuizWebApp.Controllers
     [AuthorizeQuizMaster]
     public class AdminController : Controller
     {
-        public QuizWebAppDb DB { get; set; }
+        private QuizWebAppDb DB { get; set; }
 
         public AdminController()
         {
@@ -25,14 +25,14 @@ namespace QuizWebApp.Controllers
         public ActionResult QuestionBody()
         {
             var context = this.DB.Contexts.First();
-            var curQuestion = this.DB.Questions.Find(context.CurrentQuestionID);
+            var curQuestion = this.DB.Questions.Find(context.CurrentQuestionId);
             return PartialView(curQuestion);
         }
 
         [HttpPost]
         public ActionResult CurrentQuestion(int questionID)
         {
-            this.DB.Contexts.First().CurrentQuestionID = questionID;
+            this.DB.Contexts.First().CurrentQuestionId = questionID;
             this.DB.SaveChanges();
 
             return Json(new { });
@@ -48,9 +48,9 @@ namespace QuizWebApp.Controllers
             {
                 var answers = DB
                     .Answers
-                    .Where(a => a.QuestionID == context.CurrentQuestionID)
+                    .Where(a => a.QuestionId == context.CurrentQuestionId)
                     .ToList();
-                var currentQuestion = DB.Questions.Find(context.CurrentQuestionID);
+                var currentQuestion = DB.Questions.Find(context.CurrentQuestionId);
 
                 answers
                     .ForEach(a => a.Status =
@@ -62,6 +62,10 @@ namespace QuizWebApp.Controllers
             return Json(new { });
         }
 
-
+        protected override void Dispose(bool disposing)
+        {
+            this.DB.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }

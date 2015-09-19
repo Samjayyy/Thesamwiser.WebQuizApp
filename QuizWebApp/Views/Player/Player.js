@@ -6,7 +6,7 @@
 
     $(document).on("change", "#questionoptions input[type=radio]", function () {
         var answerIndex = $(this).val();
-        $.post("/Player/PlayerSelectedOptionIndex", { "answerIndex": answerIndex },
+        $.post("/Player/PlayerSelectedOptionIndex", { "answerId" : $(document.getElementById("CurrentAnswerId")).val(), "answerIndex": answerIndex },
         function () {
             contextHub.invoke("PlayerSelectedOptionIndex");
         });

@@ -8,7 +8,7 @@
 <h3>Please select an answer from the following</h3>
 
 <div class="well well-small options" id="questionoptions">
-
+    <input type="hidden" id="CurrentAnswerId" value="@Model.Answer.AnswerId"/>
     @foreach (var opt in @Model.Question.GetOptions())
     {
         var isChecked = (@opt.OptionNumber == @Model.Answer.ChosenOptionIndex ? "checked" : "");

@@ -1,23 +1,34 @@
-﻿namespace QuizWebApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace QuizWebApp.Models
 {
     public class Answer
     {
-        public int AnswerID { get; set; }
+        public int AnswerId { get; set; }
 
-        public string PlayerID { get; set; }
+        [StringLength(32)]
+        [Index("IX_Answer", 1, IsUnique = true)]
+        public string PlayerId { get; set; }
 
-        public int QuestionID { get; set; }
+        [Index("IX_Answer", 2, IsUnique = true)]
+        public int QuestionId { get; set; }
 
         public int ChosenOptionIndex { get; set; }
 
         public int AssignedValue { get; set; }
 
-        /// <summary>
-        /// 0: no entry.
-        /// 1: pending.
-        /// 2: correct.
-        /// 3: incorrect.
-        /// </summary>
         public AnswerStateType Status { get; set; }
+    }
+
+    /// <summary>
+    /// Possible states for answers
+    /// </summary>
+    public enum AnswerStateType
+    {
+        NoEntry,
+        Pending,
+        Correct,
+        Incorrect
     }
 }

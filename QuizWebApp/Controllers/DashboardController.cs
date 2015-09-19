@@ -1,15 +1,13 @@
 ﻿using System.Web.Mvc;
 using QuizWebApp.Models;
 using QuizWebApp.Code;
-using System.Linq;
-using System;
 
 namespace QuizWebApp.Controllers
 {
     [AuthorizeDashboard]
     public class DashboardController : Controller
     {
-        public QuizWebAppDb DB { get; set; }
+        private QuizWebAppDb DB { get; set; }
 
         public DashboardController()
         {

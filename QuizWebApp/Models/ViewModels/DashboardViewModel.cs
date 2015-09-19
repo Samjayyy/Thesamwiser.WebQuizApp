@@ -14,8 +14,8 @@ namespace QuizWebApp.Models
         public DashboardViewModel(QuizWebAppDb db)
         {
             Questions = db.Questions.ToArray();
-            var answersPerPlayer = db.Answers.ToLookup(all => all.PlayerID);
-            Answers = answersPerPlayer.ToDictionary(perplayer => perplayer.Key, perplayer => perplayer.ToDictionary(q => q.QuestionID));
+            var answersPerPlayer = db.Answers.ToLookup(all => all.PlayerId);
+            Answers = answersPerPlayer.ToDictionary(perplayer => perplayer.Key, perplayer => perplayer.ToDictionary(q => q.QuestionId));
 
             var users = db.Users.ToArray();
             Players = users

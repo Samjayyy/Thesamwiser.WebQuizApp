@@ -19,7 +19,7 @@
         .First(s => s.Value == context.CurrentState.ToString())
         .Selected = true;
 
-    var curQ = Model.Questions.FirstOrDefault(q => q.QuestionId == context.CurrentQuestionID);
+    var curQ = Model.Questions.FirstOrDefault(q => q.QuestionId == context.CurrentQuestionId);
 
     var questions = Model
         .Questions

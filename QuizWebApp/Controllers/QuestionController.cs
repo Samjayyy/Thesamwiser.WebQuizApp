@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using QuizWebApp.Models;
 
@@ -9,7 +8,7 @@ namespace QuizWebApp.Controllers
     [Authorize]
     public class QuestionController : Controller
     {
-        public QuizWebAppDb DB { get; set; }
+        private QuizWebAppDb DB { get; set; }
 
         public QuestionController()
         {
@@ -43,6 +42,7 @@ namespace QuizWebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Question model)
         {
             if(!ModelState.IsValid)
@@ -64,6 +64,7 @@ namespace QuizWebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Question model)
         {
             var question = this.DB.Questions.Find(id);
@@ -89,6 +90,7 @@ namespace QuizWebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection _)
         {
             var question = this.DB.Questions.Find(id);
