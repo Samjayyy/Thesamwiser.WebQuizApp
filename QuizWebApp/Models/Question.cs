@@ -19,6 +19,11 @@ namespace QuizWebApp.Models
         [Key]
         public int QuestionId { get; set; }
 
+        [Required]
+        public int RoundId { get; set; }
+
+        public int SortOrder { get; set; }
+
         public string OwnerUserId { get; set; }
 
         [Display(Name = "Problem text"), Required, AllowHtml]

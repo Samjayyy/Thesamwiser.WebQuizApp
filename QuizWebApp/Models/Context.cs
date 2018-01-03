@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using QuizWebApp.Logic.ValuesAssigner;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuizWebApp.Models
 {
@@ -11,14 +13,33 @@ namespace QuizWebApp.Models
     /// </summary>
     public class Context
     {
+        public Context()
+        {
+            ValueAssigner = new UniqueScoreChosenByPlayer();
+        }
+
         [Key]
         public int ContextId { get; set; }
 
-        public int CurrentQuestionId { get; set; }
+        public Question CurrentQuestion { get; set; }
 
         public ContextStateType CurrentState { get; set; }
 
         public bool IsDashboardAvailableForUsers { get; set; }
+
+        public bool ShowAssignedValueInDashboard { get; set; }
+
+        [NotMapped]
+        public IValueAssigner ValueAssigner { get; set; }
+
+        public string ShowAssignedValue(int value)
+        {
+            if (!ShowAssignedValueInDashboard)
+            {
+                return " ";
+            }
+            return value+"";
+        }
     }
 
     /// <summary>

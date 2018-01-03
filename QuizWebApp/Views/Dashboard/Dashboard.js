@@ -13,7 +13,7 @@
 
         callback();
     });
-}
+};
 
 var fixTable = function (event) {
     var tableEl = document.getElementById("dashboard-table");
@@ -26,4 +26,4 @@ var fixTable = function (event) {
     $fixedColumn.find('tr').each(function (i, elem) {
         $(this).height($table.find('tr:eq(' + i + ')').height());
     });
-}
+};

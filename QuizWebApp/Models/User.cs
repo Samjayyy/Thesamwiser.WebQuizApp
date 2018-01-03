@@ -10,7 +10,7 @@ namespace QuizWebApp.Models
         public string UserId { get; set; }
 
         [Index(name:"IX_User_Name", IsUnique = true)]
-        [StringLength(100)]
+        [StringLength(100), Required]
         public string Name { get; set; }
 
         public DateTime? CreatedAt { get; set; }

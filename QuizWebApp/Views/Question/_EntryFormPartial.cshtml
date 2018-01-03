@@ -1,6 +1,7 @@
 ﻿@model QuizWebApp.Models.Question
 @using QuizWebApp.Models
 <fieldset class="form-horizontal">
+    @Html.HiddenFor(q => q.SortOrder)
     <div class="form-group">
         @Html.LabelFor(model => model.Body, new { @class = "control-label col-sm-2" })
         <div class="col-sm-8">
@@ -41,7 +42,7 @@
 
     <div class="form-actions no-color">
         <input type="submit" value="OK" class="btn btn-primary" />
-        <a href="@Url.Action("Index")" class="btn">Cancel</a>
+        <a href="@Url.Action("Index",new { roundId = Model.RoundId })" class="btn">Cancel</a>
     </div>
 </fieldset>
 

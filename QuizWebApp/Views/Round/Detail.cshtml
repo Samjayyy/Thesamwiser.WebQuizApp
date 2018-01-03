@@ -1,0 +1,16 @@
+﻿@model QuizWebApp.Models.Round
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.BodyCssClass = "public-questions-page";
+}
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    <h3>@ViewBag.Message</h3>
+</hgroup>
+
+<div class="well">
+    <div>@Html.Partial("_DisplayFormPartial", Model)</div>
+    <div>
+        <a href="javascript:history.back()" class="btn"><i class="icon-circle-arrow-left"></i> Go back</a>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-﻿@model QuizWebApp.Models.QuizWebAppDb
+﻿@model QuizWebApp.Models.AdminFlowViewModel
 
 @section scripts{
     <script type="text/javascript" src="~/Views/Admin/Admin.js"></script>
@@ -6,31 +6,6 @@
 
 @{
     ViewBag.Title = "The progress of the quiz";
-
-    var context = Model.Contexts.First();
-
-    var states = new[] {
-        new SelectListItem{ Value="PleaseWait", Text="Please wait"},
-        new SelectListItem{ Value="ChooseTheAnswer", Text="Choose the answer"},
-        new SelectListItem{ Value="Closed", Text="Closed"},
-        new SelectListItem{ Value="ShowCorrectAnswer", Text="Show correct answer"},
-    };
-    states
-        .First(s => s.Value == context.CurrentState.ToString())
-        .Selected = true;
-
-    var curQ = Model.Questions.FirstOrDefault(q => q.QuestionId == context.CurrentQuestionId);
-
-    var questions = Model
-        .Questions
-        .ToArray()
-        .Select((q, i) => new SelectListItem
-        {
-            Value = q.QuestionId.ToString(),
-            Text = "Q" + (i + 1).ToString(),
-            Selected = curQ != null ? curQ.QuestionId == q.QuestionId : false
-        })
-        .ToArray();
 }
 
 <div class="panel panel-default">   
@@ -47,9 +22,9 @@
             </button>
         </div>
         <h3>Current state</h3>
-        @Html.DropDownList("currentState", states)
+        @Html.DropDownList("currentState", Model.States)
         <h3>Quiz problem that is currently selected:</h3>
-        @Html.DropDownList("currentQuestion", questions)
+        @Html.DropDownList("currentQuestion", Model.Questions)
     </div>
 </div>
 <div id="question-body">

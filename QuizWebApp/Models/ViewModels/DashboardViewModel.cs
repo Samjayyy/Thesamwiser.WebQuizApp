@@ -9,14 +9,21 @@ namespace QuizWebApp.Models
 
         public IDictionary<string, Dictionary<int, Answer>> Answers { get; set; }
 
-        public IEnumerable<Question> Questions { get; set; }
+        public IList<QuestionRoundViewModel> QuestionRounds { get; set; }
 
         public DashboardViewModel(QuizWebAppDb db)
         {
-            Questions = db.Questions.ToArray();
+            // get questions per round
+            var rounds = db.Rounds.ToList();
+            var questions = db.Questions.ToLookup(q => q.RoundId);
+            QuestionRounds = rounds
+                .OrderBy(r => r.SortOrder)
+                .Select(r => new QuestionRoundViewModel { Round = r, Questions = questions[r.RoundId].OrderBy(q => q.SortOrder) })
+                .ToList();
+            // get all answers to questions
             var answersPerPlayer = db.Answers.ToLookup(all => all.PlayerId);
-            Answers = answersPerPlayer.ToDictionary(perplayer => perplayer.Key, perplayer => perplayer.ToDictionary(q => q.QuestionId));
-
+            Answers = answersPerPlayer.ToDictionary(perplayer => perplayer.Key, perplayer => perplayer.ToDictionary(q => q.Question.QuestionId));
+            // get all users
             var users = db.Users.ToArray();
             Players = users
                 .Where(user => !user.IsAdmin && Answers.ContainsKey(user.UserId))

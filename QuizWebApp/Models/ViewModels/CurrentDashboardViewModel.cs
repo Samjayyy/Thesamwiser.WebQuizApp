@@ -7,10 +7,10 @@ namespace QuizWebApp.Models
     {
         public CurrentDashboardViewModel(QuizWebAppDb db)
         {
-            var context = db.Contexts.First();
-            Question = db.Questions.Find(context.CurrentQuestionId);
+            Context = db.Context;
+            var question = Context.CurrentQuestion;
             var playerIds = new HashSet<string>(db.Answers.Select(a => a.PlayerId).Distinct());
-            Answers = db.Answers.Where(a => a.QuestionId == Question.QuestionId).ToDictionary(a => a.PlayerId);
+            Answers = db.Answers.Where(a => a.Question.QuestionId == question.QuestionId).ToDictionary(a => a.PlayerId);
 
             var users = db.Users.ToArray();
             Players = users
@@ -23,7 +23,6 @@ namespace QuizWebApp.Models
         // dictionary of all answers to the current question, with the userid as the key
         public IDictionary<string, Answer> Answers { get; set; }
 
-        // current question
-        public Question Question { get; set; }  
+        public Context Context { get; set; }  
     }
 }

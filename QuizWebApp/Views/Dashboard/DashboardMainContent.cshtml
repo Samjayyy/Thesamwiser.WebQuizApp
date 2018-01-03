@@ -7,9 +7,12 @@
                 <th class="col-fix">Pos</th>
                 <th class="col-fix">Name</th>
                 <th class="col-fix">Score</th>
-                @foreach (var n in Enumerable.Range(1, Model.Questions.Count()))
+                @foreach (var qr in Model.QuestionRounds)
                 {
-                    <th>@("Q" + n.ToString())</th>
+                    foreach (var question in qr.Questions)
+                    {
+                        <th>@(qr.Round.SortOrder + "/" + question.SortOrder)</th>
+                    }
                 }
             </tr>
         </thead>
@@ -38,24 +41,25 @@
                     <td class="col-fix text-right" style="background-color:rgb(@player.Red, @player.Green, 0);">
                         @player.CurrentScore
                     </td>
-                    @foreach (var q in Model.Questions.ToList())
+                    @foreach (var qr in Model.QuestionRounds)
                     {
-                        Answer ans;
-                        if (Model.Answers.ContainsKey(player.UserId) &&
-                            Model.Answers[player.UserId].ContainsKey(q.QuestionId))
+                        foreach (var q in qr.Questions)
                         {
-                            ans = Model.Answers[player.UserId][q.QuestionId];
+                            Answer ans;
+                            if (Model.Answers.ContainsKey(player.UserId) &&
+                                Model.Answers[player.UserId].ContainsKey(q.QuestionId))
+                            {
+                                ans = Model.Answers[player.UserId][q.QuestionId];
+                            }
+                            else
+                            {
+                                ans = new Answer(); // empty answer
+                            }
+                            <td><span class="answer-status answer-status-@ans.Status">@(ans.AssignedValue == 0 ? " " : ans.AssignedValue.ToString())</span></td>
                         }
-                        else
-                        {
-                            ans = new Answer(); // empty answer
-                        }
-                        <td><span class="answer-status answer-status-@ans.Status">&nbsp;</span></td>
-                        /*@(ans.AssignedValue == 0 ? "/" : ans.AssignedValue.ToString())*/
                     }
                 </tr>
-            }
+                            }
         </tbody>
     </table>
 </div>
-

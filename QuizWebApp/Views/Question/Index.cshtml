@@ -1,20 +1,21 @@
-﻿@model IEnumerable<QuizWebApp.Models.Question>
+﻿@model QuizWebApp.Models.QuestionRoundViewModel
 @{
-    ViewBag.Title = "Posted Quiz problems";
+    ViewBag.Title = "Questions";
 }
+<h4>@Html.ActionLink("Rounds overview","Index",controllerName:"Round")</h4>
 <hgroup>
-    <h2>@ViewBag.Title</h2>
+    <h2>@Model.Round.Title</h2>
     <h3>@ViewBag.Message</h3>
 </hgroup>
 
 <div style="margin-bottom:1em;">
-    <a href="@Url.Action("Create")" class="btn btn-primary"><i class="icon-plus icon-white"></i> Add a new question</a>
+    <a href="@Url.Action("Create", new { roundId = Model.Round.RoundId})" class="btn btn-primary"><i class="icon-plus icon-white"></i> Add a new question</a>
 </div>
 
 <div>
-    @foreach (var question in Model)
+    @foreach (var question in Model.Questions)
     {
-        <h3>Q @question.QuestionId</h3>
+        <h3>Q @question.SortOrder</h3>
         <div>
             <div class="well well-small">
                 <p>@Html.Raw(question.Body)</p>

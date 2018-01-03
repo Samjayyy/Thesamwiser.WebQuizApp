@@ -27,7 +27,7 @@ namespace QuizWebApp.Code
                 var userInfo = db.Users.Find(userIdentity.UserId());
                 if (userInfo == null) return false; // user not found can't pass
                 if (userInfo.IsAdmin) return true; // Admin always passes through
-                return _evaluator(db.Contexts.First());
+                return _evaluator(db.Context);
             }
         }
     }

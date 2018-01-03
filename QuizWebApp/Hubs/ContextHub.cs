@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using QuizWebApp.Models;
 

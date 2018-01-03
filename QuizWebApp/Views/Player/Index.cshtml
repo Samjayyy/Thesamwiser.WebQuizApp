@@ -1,15 +1,15 @@
-﻿@model QuizWebApp.Models.QuizWebAppDb
+﻿@model QuizWebApp.Models.Context
 @using QuizWebApp.Models
 
 @{
     ViewBag.Title = "Quiz";
 }
 @section scripts{
-    <script type="text/javascript" src="~/Views/Player/Player.js"></script>
+    <script type="text/javascript" src="~/Views/Player/Player.js?v=4"></script>
 }
 
 <form>
-    <input type="hidden" name="currentstate" id="currentstate" value="@Model.Contexts.First().CurrentState" />
+    <input type="hidden" name="currentstate" id="currentstate" value="@Model.CurrentState" />
 </form>
 
 <div class="main-content">

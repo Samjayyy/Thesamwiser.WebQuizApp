@@ -16,29 +16,41 @@ namespace QuizWebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int roundId)
         {
+            var round = DB.Rounds.Find(roundId);
             var questions = DB.Questions
-                .OrderBy(q => q.CreateAt)
+                .Where(q => q.RoundId == roundId)
+                .OrderBy(q => q.SortOrder)
                 .ToArray();
-            return View(questions);
+            return View(new QuestionRoundViewModel
+            {
+                Round = round,
+                Questions = questions
+            });
         }
 
         [HttpGet]
-        public ActionResult Overview()
+        public ActionResult Overview(int roundId)
         {
+            var round = DB.Rounds.Find(roundId);
             var questions = DB.Questions
-                .OrderBy(q => q.CreateAt)
+                .Where(q => q.RoundId == roundId)
+                .OrderBy(q => q.SortOrder)
                 .ToArray();
             ViewBag.ShowAll = Request.QueryString["ShowAll"] != null;
-            return View(questions);
+            return View(new QuestionRoundViewModel
+            {
+                Round = round,
+                Questions = questions
+            });
         }
 
 
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(int roundId)
         {
-            return View(new Question());
+            return View(new Question { RoundId = roundId });
         }
 
         [HttpPost]
@@ -51,9 +63,10 @@ namespace QuizWebApp.Controllers
             }
             model.OwnerUserId = User.Identity.UserId();
             model.CreateAt = DateTime.UtcNow;
+            model.SortOrder = DB.Questions.Count(q => q.RoundId == model.RoundId)+1;
             DB.Questions.Add(model);
             DB.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index",new { roundId = model.RoundId});
         }
 
         [HttpGet]
@@ -79,7 +92,7 @@ namespace QuizWebApp.Controllers
                 excludeProperties: new[] { "QuestionId", "OwnerUserId", "CreateAt" });
 
             DB.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { roundId = model.RoundId });
         }
 
         [HttpGet]
@@ -94,9 +107,13 @@ namespace QuizWebApp.Controllers
         public ActionResult Delete(int id, FormCollection _)
         {
             var question = this.DB.Questions.Find(id);
+            if(question == null)
+            {
+                throw new InvalidOperationException($"Trying to delete question with id {id}, but does not exist anymore.");
+            }
             this.DB.Questions.Remove(question);
             this.DB.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { roundId = question.RoundId });
         }
 
         [HttpGet]

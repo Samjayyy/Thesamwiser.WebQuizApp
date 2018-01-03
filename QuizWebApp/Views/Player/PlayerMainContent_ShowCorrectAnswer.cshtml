@@ -27,7 +27,7 @@
 
     @if (Model.Answer.Status == AnswerStateType.Correct)
     {
-        <h3 class="correct">Correct! :)</h3>
+        <h3 class="correct">Correct! You scored @Model.Answer.AssignedValue points! :)</h3>
     }
     else
     {

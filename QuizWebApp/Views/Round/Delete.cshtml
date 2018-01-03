@@ -1,11 +1,11 @@
-﻿@model QuizWebApp.Models.Question
+﻿@model QuizWebApp.Models.Round
 @{
-    ViewBag.Title = "Remove the quiz problem";
+    ViewBag.Title = "Remove a quiz round";
 }
 <hgroup>
     <h2>@ViewBag.Title</h2>
     <h3>@ViewBag.Message</h3>
-    <h3>Do you want to delete the quiz problem of following?</h3>
+    <h3>Do you want to delete the round and all underlying quiz problems?</h3>
 </hgroup>
 
 <div>
@@ -16,7 +16,7 @@
         @Html.Partial("_DisplayFormPartial", Model)
         <div>
             <input type="submit" value="Delete" class="btn btn-danger" />
-            <a href="@Url.Action("Index",new { roundId = Model.RoundId })" class="btn">Cancel</a>
+            <a href="@Url.Action("Index")" class="btn">Cancel</a>
         </div>
     }
 </div>

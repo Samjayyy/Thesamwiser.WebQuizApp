@@ -1,0 +1,18 @@
+﻿@model QuizWebApp.Models.Round
+@using QuizWebApp.Models
+<fieldset class="form-horizontal">
+    @Html.HiddenFor(q => q.SortOrder)
+    <div class="form-group">
+        <div class="col-sm-8">
+            @Html.TextBoxFor(model => model.Title, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Title, null, new { @class = "help-inline" })
+        </div>
+    </div>
+    <div class="form-actions no-color">
+        <input type="submit" value="OK" class="btn btn-primary" />
+        <a href="@Url.Action("Index")" class="btn">Cancel</a>
+    </div>
+</fieldset>
+
+
+

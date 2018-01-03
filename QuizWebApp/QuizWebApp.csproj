@@ -185,7 +185,9 @@
     <Compile Include="Code\JsonAppSettings.cs" />
     <Compile Include="Code\IIdentityExtension.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RoundController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Helpers\TypeConfigurationExtensions.cs" />
     <Compile Include="Hubs\ContextHub.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Helpers\Helper.cs" />
@@ -195,7 +197,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\ValuesAssigner\AllEquallyScored.cs" />
+    <Compile Include="Logic\ValuesAssigner\UniqueScoreChosenByPlayer.cs" />
+    <Compile Include="Logic\ValuesAssigner\IValueAssigner.cs" />
+    <Compile Include="Migrations\201801030136090_InitialSchema.cs" />
+    <Compile Include="Migrations\201801030136090_InitialSchema.Designer.cs">
+      <DependentUpon>201801030136090_InitialSchema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Answer.cs" />
+    <Compile Include="Models\Round.cs" />
+    <Compile Include="Models\ViewModels\AdminFlowViewModel.cs" />
     <Compile Include="Models\ViewModels\CurrentDashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\Context.cs" />
@@ -203,6 +215,7 @@
     <Compile Include="Models\ViewModels\PlayerQuestionViewModel.cs" />
     <Compile Include="Models\QuizWebAppDb.cs" />
     <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\ViewModels\QuestionRoundViewModel.cs" />
     <Compile Include="Models\ViewModels\SignInViewModel.cs" />
     <Compile Include="Models\ViewModels\PlayerViewModel.cs" />
     <Compile Include="Models\User.cs" />
@@ -334,6 +347,13 @@
     <Content Include="Views\Question\Overview.cshtml" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <Content Include="Views\Round\Index.cshtml" />
+    <Content Include="Views\Round\_DisplayFormPartial.cshtml" />
+    <Content Include="Views\Round\_EntryFormPartial.cshtml" />
+    <Content Include="Views\Round\Create.cshtml" />
+    <Content Include="Views\Round\Delete.cshtml" />
+    <Content Include="Views\Round\Detail.cshtml" />
+    <Content Include="Views\Round\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -342,6 +362,11 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201801030136090_InitialSchema.resx">
+      <DependentUpon>201801030136090_InitialSchema.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

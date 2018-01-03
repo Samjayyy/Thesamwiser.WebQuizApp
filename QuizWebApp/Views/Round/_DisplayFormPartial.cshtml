@@ -1,0 +1,12 @@
+﻿@model QuizWebApp.Models.Round
+@using QuizWebApp.Helpers
+
+<h3>
+    @Html.DisplayFor(model => model.Title)
+</h3>
+<h3>
+    @Html.DisplayNameFor(model => model.CreateAt)
+</h3>
+<div class="well well-small">
+    @Model.CreateAt.ToLocalDateTimeString()
+</div>

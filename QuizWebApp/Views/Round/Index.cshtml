@@ -1,0 +1,40 @@
+﻿@model IEnumerable<QuizWebApp.Models.Round>
+@{
+    ViewBag.Title = "Quiz Rounds";
+}
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    <h3>@ViewBag.Message</h3>
+</hgroup>
+
+<div style="margin-bottom:1em;">
+    <a href="@Url.Action("Create")" class="btn btn-primary"><i class="icon-plus icon-white"></i> Add a new round</a>
+</div>
+
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Round</th>
+                <th>Title</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var round in Model)
+            {
+                <tr>
+                    <td>@round.SortOrder</td>
+                    <td>@Html.ActionLink(@round.Title, "Index", "Question", new { roundId = round.RoundId }, new { })</td>
+                    <td>
+                        <div>
+                            <a href="@Url.Action("Detail", new { id = round.RoundId })" class="btn"><i class="icon-circle-arrow-right"></i> Detail</a>
+                            <a href="@Url.Action("Edit", new { id = round.RoundId })" class="btn"><i class="icon-edit"></i> Edit</a>
+                            <a href="@Url.Action("Delete", new { id = round.RoundId })" class="btn"><i class="icon-trash"></i> Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -7,14 +7,23 @@
 
 <h3>Please select an answer from the following</h3>
 
+<input type="hidden" id="CurrentAnswerId" name="CurrentAnswerId" value="@Model.Answer.AnswerId" />
 <div class="well well-small options" id="questionoptions">
-    <input type="hidden" id="CurrentAnswerId" value="@Model.Answer.AnswerId"/>
     @foreach (var opt in @Model.Question.GetOptions())
     {
-        var isChecked = (@opt.OptionNumber == @Model.Answer.ChosenOptionIndex ? "checked" : "");
         <label for="@("option" + opt.OptionNumber.ToString())">
-            <input type="radio" name="option" value="@opt.OptionNumber" id="@("option" + opt.OptionNumber.ToString())" @isChecked />
+            <input type="radio" name="answerOptions" value="@opt.OptionNumber" id="@("option" + opt.OptionNumber.ToString())" @((@opt.OptionNumber == @Model.Answer.ChosenOptionIndex) ? " checked" : "") />
             <span>@opt.Option</span>
+        </label>
+    }
+</div>
+<h4>Question weight</h4>
+<div class="well well-small options" id="answerscores">
+    @foreach (var val in @Model.PossibleValues)
+    {
+        <label for="@("answerscore" + val)">
+            <input type="radio" name="answerscores" value="@val" id="@("answerscore" + val)" @((Model.Answer.AssignedValue == val) ? " checked" : "") />
+            <span>@val</span>
         </label>
     }
 </div>

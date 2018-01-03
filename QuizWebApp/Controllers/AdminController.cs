@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using QuizWebApp.Code;
 using QuizWebApp.Models;
+using System;
 
 namespace QuizWebApp.Controllers
 {
@@ -18,21 +19,21 @@ namespace QuizWebApp.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View(this.DB);
+            return View(new AdminFlowViewModel(this.DB));
         }
 
         [HttpGet]
         public ActionResult QuestionBody()
         {
-            var context = this.DB.Contexts.First();
-            var curQuestion = this.DB.Questions.Find(context.CurrentQuestionId);
-            return PartialView(curQuestion);
+            var context = DB.Context;
+            return PartialView(context.CurrentQuestion);
         }
 
         [HttpPost]
-        public ActionResult CurrentQuestion(int questionID)
+        public ActionResult CurrentQuestion(int questionId)
         {
-            this.DB.Contexts.First().CurrentQuestionId = questionID;
+            var context = this.DB.Context;
+            context.CurrentQuestion = DB.Questions.Find(questionId);
             this.DB.SaveChanges();
 
             return Json(new { });
@@ -40,7 +41,12 @@ namespace QuizWebApp.Controllers
         [HttpPost]
         public ActionResult CurrentState(ContextStateType state)
         {
-            var context = DB.Contexts.First();
+            var context = this.DB.Context;
+            if (state != ContextStateType.PleaseWait
+                && context.CurrentQuestion == null)
+            {
+                throw new InvalidOperationException("Can't change the state when there is no current question selected");
+            }
             context.CurrentState = state;
 
             // if change state to "3:show answer", judge to all players.
@@ -48,13 +54,11 @@ namespace QuizWebApp.Controllers
             {
                 var answers = DB
                     .Answers
-                    .Where(a => a.QuestionId == context.CurrentQuestionId)
+                    .Where(a => a.Question.QuestionId == context.CurrentQuestion.QuestionId)
                     .ToList();
-                var currentQuestion = DB.Questions.Find(context.CurrentQuestionId);
-
                 answers
                     .ForEach(a => a.Status =
-                        a.ChosenOptionIndex == currentQuestion.IndexOfCorrectOption
+                        a.ChosenOptionIndex == context.CurrentQuestion.IndexOfCorrectOption
                         ? AnswerStateType.Correct : AnswerStateType.Incorrect);
             }
             DB.SaveChanges();
